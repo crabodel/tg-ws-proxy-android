@@ -7,6 +7,7 @@ import {
 export { ChunkRelaySession };
 export { handleWarpBootstrapRequest };
 
+/*
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -14,5 +15,20 @@ export default {
       return handleWarpBootstrapRequest(request, url);
     }
     return relayWorker.fetch(request, env, ctx);
+  },
+};
+
+*/
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    if (isWarpBootstrapPath(url.pathname)) {
+      return handleWarpBootstrapRequest(request, url);
+    }
+    if (url.pathname.startsWith("/chunk-relay/")) {
+      return relayWorker.fetch(request, env, ctx);
+    }
+    return new Response(null, { status: 404 });
   },
 };
