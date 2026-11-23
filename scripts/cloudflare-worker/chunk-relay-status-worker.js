@@ -132,12 +132,6 @@ export default {
       if (response.status >= 500 && response.status !== 503) return relayResponse(response, "transient_worker_error");
       return response;
     } catch (error) {
-      console.log("chunk relay status wrapper caught worker failure", {
-        revision: REVISION,
-        hub_revision: HUB_REVISION,
-        relay_error: "transient_worker_error",
-        error: String(error),
-      });
       return relayFailure("transient_worker_error", 502);
     }
   },
